@@ -1,19 +1,60 @@
 cmake_minimum_required(VERSION 3.16)
-project(CMakeSFMLProject LANGUAGES CXX)
+project(sfml_test 
+        LANGUAGES CXX
+        VERSION 0.0.0.1
+)
 
+# setting output dir for executable file
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# build all libs staticly 
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+###################################################
+#               DOWNLOADING PACKAGES
+###################################################
+
+# enable FetchContent
 include(FetchContent)
-FetchContent_Declare(SFML
+
+# Downloading SFML
+FetchContent_Declare(
+    SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x)
-FetchContent_MakeAvailable(SFML)
+    GIT_TAG 2.6.x
+)
 
-add_executable(CMakeSFMLProject src/main.cpp)
-target_link_libraries(CMakeSFMLProject PRIVATE sfml-graphics)
-target_compile_features(CMakeSFMLProject PRIVATE cxx_std_17)
+# Downloading SPDLOG
+FetchContent_Declare(
+    SPDLOG
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.13.0
+)
 
+# Making Avalible !!!ALL!!! libs
+FetchContent_MakeAvailable(SFML SPDLOG)
+
+# link spdlog to all files
+set(CMAKE_STANDARD_LIBRARIES 
+    ${CMAKE_STANDARD_LIBRARIES}
+    spdpog::spdlog
+)
+
+###################################################
+#           CREATING EXECUTABLE FILE
+###################################################
+
+# directory with executable file
+add_subdirectory(src)
+
+###################################################
+#               COMPILER SETTINGS
+###################################################
+
+# compile all with c++20
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
+
+# For Windows sfml
 if(WIN32)
     add_custom_command(
         TARGET CMakeSFMLProject
@@ -22,4 +63,4 @@ if(WIN32)
         VERBATIM)
 endif()
 
-install(TARGETS CMakeSFMLProject)
+install(TARGETS ${PROJECT_NAME})
