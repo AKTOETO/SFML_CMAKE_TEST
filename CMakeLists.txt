@@ -8,7 +8,7 @@ project(sfml_test
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # build all libs staticly 
-option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+#option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
 ###################################################
 #               DOWNLOADING PACKAGES
@@ -34,7 +34,7 @@ FetchContent_Declare(
 # Making Avalible !!!ALL!!! libs
 FetchContent_MakeAvailable(SFML SPDLOG)
 
-# link spdlog to all files
+# link spdlog to all files (SFML already linked)
 set(CMAKE_STANDARD_LIBRARIES 
     ${CMAKE_STANDARD_LIBRARIES}
     spdpog::spdlog
@@ -44,8 +44,27 @@ set(CMAKE_STANDARD_LIBRARIES
 #           CREATING EXECUTABLE FILE
 ###################################################
 
-# directory with executable file
-add_subdirectory(src)
+# fetching all .cpp files from src/
+file(GLOB_RECURSE SRCS "src/*.cpp")
+
+# Creating excecutable file
+add_executable(${CMAKE_PROJECT_NAME}
+    ${SRCS}
+)
+
+# linking all libs to executable file
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    PUBLIC
+        sfml-graphics sfml-network sfml-audio
+        spdlog::spdlog
+)
+
+# including all headers to executable
+target_include_directories(
+    ${CMAKE_PROJECT_NAME}
+    PRIVATE
+        include
+)
 
 ###################################################
 #               COMPILER SETTINGS
@@ -57,7 +76,7 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 # For Windows sfml
 if(WIN32)
     add_custom_command(
-        TARGET CMakeSFMLProject
+        TARGET ${PROJECT_NAME}
         COMMENT "Copy OpenAL DLL"
         PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:CMakeSFMLProject>
         VERBATIM)
