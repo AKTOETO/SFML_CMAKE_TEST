@@ -1,11 +1,17 @@
 #include <SFML/Graphics.hpp>
-#include "hello.hpp"
+#include <memory>
 
+// главная функция
 int main()
 {
-    Hello::print();
+    sf::Texture text;
+    text.loadFromFile("assets/textures/src/Player.png");
 
-    auto window = sf::RenderWindow{ { 1920u, 1080u }, "CMake SFML Project" };
+    sf::Sprite sp(text);
+    sp.setPosition(200,200);
+    sp.setScale(10,10);
+
+    auto window = sf::RenderWindow{ { 800, 600 }, "CMake SFML Project" };
     window.setFramerateLimit(60);
 
     while (window.isOpen())
@@ -18,7 +24,8 @@ int main()
             }
         }
 
-        window.clear();
+        window.clear(sf::Color::Blue);
+        window.draw(sp);
         window.display();
     }
 }

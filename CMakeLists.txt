@@ -73,6 +73,10 @@ target_include_directories(
 # compile all with c++20
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+###################################################
+#               ADDITIONAL SETTINGS
+###################################################
+
 # For Windows sfml
 # (Copy DLLs for Windows runtime)
 if(WIN32)
@@ -84,5 +88,14 @@ if(WIN32)
             $<TARGET_FILE_DIR:${PROJECT_NAME}>
         VERBATIM)
 endif()
-
 install(TARGETS ${PROJECT_NAME})
+
+# copy asset folder to bin folder
+add_custom_target(COPY_ASSETS ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${PROJECT_SOURCE_DIR}/assets
+    ${PROJECT_BINARY_DIR}/bin/assets
+    COMMENT "Copying assets from '${PROJECT_SOURCE_DIR}/assets' to '${PROJECT_BINARY_DIR}/assets'"
+)
+add_dependencies(${PROJECT_NAME} COPY_ASSETS)
+
