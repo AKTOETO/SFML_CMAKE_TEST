@@ -50,10 +50,12 @@ set(CMAKE_STANDARD_LIBRARIES
 
 # fetching all .cpp files from src/
 file(GLOB_RECURSE SRCS "src/*.cpp")
+file(GLOB_RECURSE HDRS "include/*.hpp")
 
 # Creating excecutable file
 add_executable(${CMAKE_PROJECT_NAME}
     ${SRCS}
+	${HDRS}
 )
 
 # linking all libs to executable file
