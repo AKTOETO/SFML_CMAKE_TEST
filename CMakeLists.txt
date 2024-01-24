@@ -17,12 +17,16 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 # enable FetchContent
 include(FetchContent)
 
+message(STATUS "downloading SFML")
+
 # Downloading SFML
 FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.x
 )
+
+message(STATUS "downloading spdlog")
 
 # Downloading SPDLOG
 FetchContent_Declare(
