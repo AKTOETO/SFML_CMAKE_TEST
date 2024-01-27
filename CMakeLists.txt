@@ -57,6 +57,15 @@ set(CMAKE_STANDARD_LIBRARIES
 file(GLOB_RECURSE SRCS "src/*.cpp")
 file(GLOB_RECURSE HDRS "include/*.hpp")
 
+foreach(el IN LISTS SRCS)
+    message(${el})    
+endforeach()
+
+
+foreach(el IN LISTS HDRS)
+    message(${el})
+endforeach()
+
 # Creating excecutable file
 add_executable(${CMAKE_PROJECT_NAME}
     ${SRCS}

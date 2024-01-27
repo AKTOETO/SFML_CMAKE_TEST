@@ -1,13 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "textureLoader.hpp"
 
 // главная функция
 int main()
 {
-    sf::Texture text;
-    text.loadFromFile("assets/textures/src/Player.png");
+    TextureLoader tl;
+    tl.LoadAsset("src/Player.png", TextureType::ID::Chel);
 
-    sf::Sprite sp(text);
+    sf::Sprite sp(tl.GetAsset(TextureType::ID::Chel));
     sp.setPosition(200,200);
     sp.setScale(10,10);
 
