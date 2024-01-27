@@ -84,6 +84,11 @@ target_include_directories(
 # compile all with c++20
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
+# if compiler is clang
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++20")
+endif()
+
 ###################################################
 #               ADDITIONAL SETTINGS
 ###################################################
@@ -111,3 +116,4 @@ add_custom_command(
 )
 install(TARGETS ${PROJECT_NAME})
 
+message("compiler name: ${CMAKE_CXX_COMPILER_ID}")
