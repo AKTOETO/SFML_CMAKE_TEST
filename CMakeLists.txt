@@ -17,6 +17,9 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 # enable FetchContent
 include(FetchContent)
 
+# enable fetchcontent messages
+set(FETCHCONTENT_QUIET FALSE)
+
 message(STATUS "downloading SFML")
 
 # Downloading SFML
@@ -24,6 +27,7 @@ FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 2.6.x
+	GIT_PROGRESS TRUE
 )
 
 message(STATUS "downloading spdlog")
@@ -33,6 +37,7 @@ FetchContent_Declare(
     SPDLOG
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
     GIT_TAG v1.13.0
+	GIT_PROGRESS TRUE
 )
 
 # Making Avalible !!!ALL!!! libs
@@ -94,14 +99,15 @@ if(WIN32)
             $<TARGET_FILE_DIR:${PROJECT_NAME}>
         VERBATIM)
 endif()
-install(TARGETS ${PROJECT_NAME})
 
 # copy asset folder to bin folder
-add_custom_target(COPY_ASSETS ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PROJECT_SOURCE_DIR}/assets
-    ${PROJECT_BINARY_DIR}/bin/assets
-    COMMENT "Copying assets from '${PROJECT_SOURCE_DIR}/assets' to '${PROJECT_BINARY_DIR}/assets'"
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    COMMENT "Copy assets from ${PROJECT_SOURCE_DIR}/assets to $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets"
+    PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
+    VERBATIM
 )
-add_dependencies(${PROJECT_NAME} COPY_ASSETS)
+install(TARGETS ${PROJECT_NAME})
 
