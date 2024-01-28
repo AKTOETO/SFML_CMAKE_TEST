@@ -67,7 +67,7 @@ foreach(el IN LISTS HDRS)
 endforeach()
 
 # Creating excecutable file
-add_executable(${CMAKE_PROJECT_NAME}
+add_executable(${CMAKE_PROJECT_NAME} WIN32 
     ${SRCS}
 	${HDRS}
 )
@@ -97,6 +97,17 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++20")
 endif()
+
+# disabling console window in release build type
+if (WIN32)
+    # if config is debug set the variable to "/SUBSYSTEM:CONSOLE," else "/SUBSYSTEM:WINDOWS", append "/ENTRY:mainCRTStartup>" in any case 
+    set(SUBSYSTEM_LINKER_OPTIONS "$<IF:$<CONFIG:Debug>,/SUBSYSTEM:CONSOLE,/SUBSYSTEM:WINDOWS;/ENTRY:mainCRTStartup>")
+else()
+    # if config is not debug set the variable to "-mwindows" else nothing
+    set(SUBSYSTEM_LINKER_OPTIONS "$<IF:$<NOT:$<CONFIG:Debug>>,-mwindows,>")
+endif()
+
+target_link_options(${CMAKE_PROJECT_NAME} PRIVATE ${SUBSYSTEM_LINKER_OPTIONS})
 
 ###################################################
 #               ADDITIONAL SETTINGS
