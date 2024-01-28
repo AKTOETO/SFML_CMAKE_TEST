@@ -20,7 +20,7 @@ namespace AssetType
 template <typename AssetType, typename Enum = AssetType::ID>
 class AssetLoader
 {
-private:
+protected:
     // путь к папке с ассетами текущего типа
     std::string m_FilePath;
 
@@ -32,7 +32,7 @@ public:
     AssetLoader(const std::string& filepath);
     virtual ~AssetLoader();
 
-    virtual void LoadAsset(const std::string& filename, Enum asset_name);
+    virtual void LoadAsset(const std::string& filename, Enum asset_name) = 0;
     virtual AssetType& GetAsset(Enum asset_name);
 };
 
@@ -45,24 +45,6 @@ inline AssetLoader<AssetType, Enum>::AssetLoader(const std::string& filepath)
 template <typename AssetType, typename Enum>
 inline AssetLoader<AssetType, Enum>::~AssetLoader()
 {}
-
-template <typename AssetType, typename Enum>
-inline void AssetLoader<AssetType, Enum>::LoadAsset(
-    const std::string& filename, 
-    Enum asset_name
-    )
-{
-    std::unique_ptr<AssetType> asset = std::make_unique<AssetType>();
-    if(!asset->loadFromFile(m_FilePath + filename))
-        throw std::runtime_error(
-            "[AssetLoader::LoadAsset] Failed to load asset " +
-            m_FilePath + filename
-            );
-    
-    auto inserted = m_LoadedAssets.insert(std::make_pair(
-        asset_name, std::move(asset)));
-    assert(inserted.second);
-}
 
 template <typename AssetType, typename Enum>
 inline AssetType& AssetLoader<AssetType, Enum>::GetAsset(Enum asset_name)
