@@ -61,13 +61,13 @@ private:
     void ReadConfig(sf::Sprite*, const std::string&);
 
     // функции обработки тегов
-    void SetTexture(     sf::Sprite* sp, std::stringstream& str);
-    void SetTextureRect( sf::Sprite* sp, std::stringstream& str);
-    void SetColor(       sf::Sprite* sp, std::stringstream& str);
-    void SetPosition(    sf::Sprite* sp, std::stringstream& str);
-    void SetRotation(    sf::Sprite* sp, std::stringstream& str);
-    void SetScale(       sf::Sprite* sp, std::stringstream& str);
-    void SetOrigin(      sf::Sprite* sp, std::stringstream& str);
+    void SetTexture     (sf::Sprite* sp, std::stringstream& str);
+    void SetTextureRect (sf::Sprite* sp, std::stringstream& str);
+    void SetColor       (sf::Sprite* sp, std::stringstream& str);
+    void SetPosition    (sf::Sprite* sp, std::stringstream& str);
+    void SetRotation    (sf::Sprite* sp, std::stringstream& str);
+    void SetScale       (sf::Sprite* sp, std::stringstream& str);
+    void SetOrigin      (sf::Sprite* sp, std::stringstream& str);
 
 };
 

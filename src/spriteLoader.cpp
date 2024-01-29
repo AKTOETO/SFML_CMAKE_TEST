@@ -32,14 +32,19 @@ SpriteLoader::SpriteLoader(TextureLoader& txt_loader)
 		SpriteInfo::ConfigTag::SetOrigin
 	*/
 
+#define LAMBDA_F(f_name) [&](sf::Sprite* sp, std::stringstream& str)\
+								{ SpriteLoader::f_name(sp, str); };
+
 	// сопоставление тегов функциям обработки
-	m_tag_to_func[SpriteInfo::ConfigTag::SetTexture]     = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetTexture(sp, str); };
-	m_tag_to_func[SpriteInfo::ConfigTag::SetTextureRect] = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetTextureRect(sp, str);};
-	m_tag_to_func[SpriteInfo::ConfigTag::SetColor]       = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetColor(sp, str);};
-	m_tag_to_func[SpriteInfo::ConfigTag::SetPosition]    = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetPosition(sp, str);};
-	m_tag_to_func[SpriteInfo::ConfigTag::SetRotation]    = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetRotation(sp, str);};
-	m_tag_to_func[SpriteInfo::ConfigTag::SetScale]       = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetScale(sp, str);};
-	m_tag_to_func[SpriteInfo::ConfigTag::SetOrigin]      = [&](sf::Sprite* sp, std::stringstream& str) {SpriteLoader::SetOrigin(sp, str);};
+	m_tag_to_func[SpriteInfo::ConfigTag::SetTexture]     = LAMBDA_F(SetTexture);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetTextureRect] = LAMBDA_F(SetTextureRect);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetColor]       = LAMBDA_F(SetColor);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetPosition]    = LAMBDA_F(SetPosition);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetRotation]    = LAMBDA_F(SetRotation);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetScale]       = LAMBDA_F(SetScale);
+	m_tag_to_func[SpriteInfo::ConfigTag::SetOrigin]      = LAMBDA_F(SetOrigin);
+
+#undef LAMBDA_F
 }
 
 
@@ -79,7 +84,7 @@ void SpriteLoader::ReadConfig(sf::Sprite* sp, const std::string& filename)
 
 		// формат команды:
 		// <tag> <value>
-
+		 
 		// тег
 		std::string tag;
 		sstr >> tag;

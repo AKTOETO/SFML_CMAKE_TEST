@@ -18,7 +18,7 @@ namespace AssetType
 // абстрактный базовый класс для загрузки 
 // ассетов разного типа
 template <typename AssetType, typename Enum = AssetType::ID>
-class AssetLoader
+class AssetLoader 
 {
 protected:
     // путь к папке с ассетами текущего типа

@@ -117,7 +117,7 @@ target_link_options(${CMAKE_PROJECT_NAME} PRIVATE ${SUBSYSTEM_LINKER_OPTIONS})
 # (Copy DLLs for Windows runtime)
 if(WIN32)
     add_custom_command(
-        TARGET ${PROJECT_NAME}
+        TARGET ${CMAKE_PROJECT_NAME}
         COMMENT "Copy OpenAL DLL"
         PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy
             ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll
@@ -126,14 +126,13 @@ if(WIN32)
 endif()
 
 # copy asset folder to bin folder
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    COMMENT "Copy assets from ${PROJECT_SOURCE_DIR}/assets to $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets"
-    PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/assets
-        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
-    VERBATIM
+add_custom_target(
+    copy_assets ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/assets"
+        "${CMAKE_BINARY_DIR}/bin/assets"
+    COMMENT "Copy assets from ${PROJECT_SOURCE_DIR}/assets to ${CMAKE_BINARY_DIR}/bin/assets"
 )
-install(TARGETS ${PROJECT_NAME})
+add_dependencies(${CMAKE_PROJECT_NAME} copy_assets)
 
-message("compiler name: ${CMAKE_CXX_COMPILER_ID}")
+install(TARGETS ${CMAKE_PROJECT_NAME})
