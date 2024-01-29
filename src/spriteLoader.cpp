@@ -1,4 +1,4 @@
-#include "spriteLoader.hpp"
+п»ї#include "spriteLoader.hpp"
 
 SpriteLoader::SpriteLoader(TextureLoader& txt_loader)
 	:AssetLoader("sprites/"), m_txt_loader(txt_loader)
@@ -13,7 +13,7 @@ SpriteLoader::SpriteLoader(TextureLoader& txt_loader)
         SetOrigin
 	*/
 
-	// сопоставление строк из файла тегам
+	// СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ СЃС‚СЂРѕРє РёР· С„Р°Р№Р»Р° С‚РµРіР°Рј
 #define STR(x) #x
 #define ADD_STR_TO_TAGS(tag) m_str_to_tags[STR(tag)] = SpriteInfo::ConfigTag::tag;
 
@@ -40,7 +40,7 @@ SpriteLoader::SpriteLoader(TextureLoader& txt_loader)
 								{ SpriteLoader::f_name(sp, str); };
 #define ADD_TAG_TO_FUNC(tag) m_tag_to_func[SpriteInfo::ConfigTag::tag] = LAMBDA_F(tag);
 
-	// сопоставление тегов функциям обработки
+	// СЃРѕРїРѕСЃС‚Р°РІР»РµРЅРёРµ С‚РµРіРѕРІ С„СѓРЅРєС†РёСЏРј РѕР±СЂР°Р±РѕС‚РєРё
 	ADD_TAG_TO_FUNC(SetTexture);
 	ADD_TAG_TO_FUNC(SetTextureRect);
 	ADD_TAG_TO_FUNC(SetColor);
@@ -61,13 +61,13 @@ inline void SpriteLoader::LoadAsset(
 	SpriteInfo::ID asset_name
 )
 {
-	// новый спрайт
+	// РЅРѕРІС‹Р№ СЃРїСЂР°Р№С‚
 	std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
 
-	//  чтение конфига 
+	//  С‡С‚РµРЅРёРµ РєРѕРЅС„РёРіР° 
 	ReadConfig(sprite.get(), filename);
 
-	// добавляем элемент в мап
+	// РґРѕР±Р°РІР»СЏРµРј СЌР»РµРјРµРЅС‚ РІ РјР°Рї
 	auto inserted = m_LoadedAssets.insert(
 		std::make_pair(asset_name, std::move(sprite))
 	);
@@ -78,43 +78,43 @@ inline void SpriteLoader::LoadAsset(
 
 void SpriteLoader::ReadConfig(sf::Sprite* sp, const std::string& filename)
 {	
-	// открываем файл с конфигом спрайта
+	// РѕС‚РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РєРѕРЅС„РёРіРѕРј СЃРїСЂР°Р№С‚Р°
 	std::ifstream fin(m_FilePath + filename);
 	if (!fin)
 		spdlog::info("Failed to open {0} file", m_FilePath + filename);
 
 	std::string temp;
-	// читаем конфиг
+	// С‡РёС‚Р°РµРј РєРѕРЅС„РёРі
 	while (std::getline(fin, temp))
 	{
-		// тег с параметрами в строковом потоке
+		// С‚РµРі СЃ РїР°СЂР°РјРµС‚СЂР°РјРё РІ СЃС‚СЂРѕРєРѕРІРѕРј РїРѕС‚РѕРєРµ
 		std::stringstream sstr(temp);
 
-		// формат команды:
+		// С„РѕСЂРјР°С‚ РєРѕРјР°РЅРґС‹:
 		// <tag> <value>
 		 
-		// тег
+		// С‚РµРі
 		std::string tag;
 		sstr >> tag;
 
-		// если строка не пустая и
-		// первый символ # то это комментарий
+		// РµСЃР»Рё СЃС‚СЂРѕРєР° РЅРµ РїСѓСЃС‚Р°СЏ Рё
+		// РїРµСЂРІС‹Р№ СЃРёРјРІРѕР» # С‚Рѕ СЌС‚Рѕ РєРѕРјРјРµРЅС‚Р°СЂРёР№
 		if(tag.length() > 0 && tag[0] != '#')
 		{
-			// если такой тег не существует
+			// РµСЃР»Рё С‚Р°РєРѕР№ С‚РµРі РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
 			if (m_str_to_tags.find(tag) == m_str_to_tags.end())
 			{
 				spdlog::error("Tag '{0}' doesnt exist!", tag);
 				throw std::runtime_error("[SpriteLoader::ReadConfig] Failed to find '" + tag + "'!");
 			}
 
-			// активация функции обработки соответствующего тега
+			// Р°РєС‚РёРІР°С†РёСЏ С„СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРіРѕ С‚РµРіР°
 			m_tag_to_func[m_str_to_tags[tag]](sp, sstr);
 		}
 	}
 }
 
-// функции обработки тегов
+// С„СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё С‚РµРіРѕРІ
 void SpriteLoader::SetTexture(sf::Sprite* sp, std::stringstream& str)
 {
 	std::string filepath;

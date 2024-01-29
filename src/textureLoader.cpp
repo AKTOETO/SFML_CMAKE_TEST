@@ -1,4 +1,4 @@
-#include "textureLoader.hpp"
+﻿#include "textureLoader.hpp"
 
 TextureLoader::TextureLoader()
     :AssetLoader("textures/src/")

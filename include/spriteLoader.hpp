@@ -1,4 +1,4 @@
-#ifndef SPRITELOADER_HPP
+п»ї#ifndef SPRITELOADER_HPP
 #define SPRITELOADER_HPP
 
 #include "textureLoader.hpp"
@@ -34,19 +34,19 @@ namespace SpriteInfo
     };
 };
 
-// загрузчик спрайтов
+// Р·Р°РіСЂСѓР·С‡РёРє СЃРїСЂР°Р№С‚РѕРІ
 class SpriteLoader :
     public AssetLoader<sf::Sprite, SpriteInfo::ID>
 {
 private:
     TextureLoader& m_txt_loader;
-    // тег из конфига - тег из ConfigTag
+    // С‚РµРі РёР· РєРѕРЅС„РёРіР° - С‚РµРі РёР· ConfigTag
     std::map<std::string, SpriteInfo::ConfigTag> m_str_to_tags;
 
-    // Функция обработки тега
+    // Р¤СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё С‚РµРіР°
     using TagHandleFunc = std::function<void(sf::Sprite*, std::stringstream&)>;
 
-    // тег из ConfigTag - обработка тега
+    // С‚РµРі РёР· ConfigTag - РѕР±СЂР°Р±РѕС‚РєР° С‚РµРіР°
     std::map<SpriteInfo::ConfigTag, TagHandleFunc> m_tag_to_func;
 
 public:
@@ -57,10 +57,10 @@ public:
 
 private:
 
-    // чтение конфига
+    // С‡С‚РµРЅРёРµ РєРѕРЅС„РёРіР°
     void ReadConfig(sf::Sprite*, const std::string&);
 
-    // функции обработки тегов
+    // С„СѓРЅРєС†РёРё РѕР±СЂР°Р±РѕС‚РєРё С‚РµРіРѕРІ
     void SetTexture        (sf::Sprite* sp, std::stringstream& str);
     void SetTextureRect    (sf::Sprite* sp, std::stringstream& str);
     void SetColor          (sf::Sprite* sp, std::stringstream& str);
