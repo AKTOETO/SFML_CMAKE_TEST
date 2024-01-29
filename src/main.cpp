@@ -1,5 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <memory>
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "textureLoader.hpp"
 #include "spriteLoader.hpp"
 
@@ -27,9 +26,10 @@ int main()
     //sf::Sprite sp(tl.GetAsset(TextureType::ID::Chel));
     //sp.setPosition(200,200);
     //sp.setScale(10,10);
-    //
+    
     auto window = sf::RenderWindow{ { 800, 600 }, "CMake SFML Project" };
     window.setFramerateLimit(60);
+    window.setPosition({ -1000,50 });
     
     while (window.isOpen())
     {

@@ -32,8 +32,14 @@ public:
     AssetLoader(const std::string& filepath);
     virtual ~AssetLoader();
 
+    // загрузить ассет с диска в память
     virtual void LoadAsset(const std::string& filename, Enum asset_name) = 0;
+    // получить ассет
     virtual AssetType& GetAsset(Enum asset_name);
+    // удалить ассет
+    virtual void DeleteAsset(Enum asset_name);
+    // удалить все ассеты
+    virtual void DeleteAllAsset();
 };
 
 
@@ -52,6 +58,20 @@ inline AssetType& AssetLoader<AssetType, Enum>::GetAsset(Enum asset_name)
     auto found = m_LoadedAssets.find(asset_name);
     assert(found != m_LoadedAssets.end());
     return *(found->second);
+}
+
+template<typename AssetType, typename Enum>
+inline void AssetLoader<AssetType, Enum>::DeleteAsset(Enum asset_name)
+{
+    auto found = m_LoadedAssets.find(asset_name);
+    assert(found != m_LoadedAssets.end());
+    m_LoadedAssets.erase(found);
+}
+
+template<typename AssetType, typename Enum>
+inline void AssetLoader<AssetType, Enum>::DeleteAllAsset()
+{
+    m_LoadedAssets.clear();
 }
 
 #endif // ASSETLOADER_H
