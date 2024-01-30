@@ -1,13 +1,13 @@
 ﻿
 #include "game.hpp"
-
+#include <iostream>
 // главная функция
 int main()
 {
 	Game game;
 	game.Run();
-
-    //using func = std::function<void(sf::Sprite*)>;
+	
+	//using func = std::function<void(sf::Sprite*)>;
     //std::map<int, func> mp;
     //sf::Sprite sp;
     //mp[0] = std::bind([](sf::Sprite* sp) {sp->move(1, 1); }, &sp);
