@@ -1,4 +1,4 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+﻿#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #include "textureLoader.hpp"
 #include "spriteLoader.hpp"
 
@@ -18,7 +18,7 @@ int main()
     //spdlog::info("pos {0}, {1}", sp.getPosition().x, sp.getPosition().y);
 
     TextureLoader tl;
-    //tl.LoadAsset("src/Player.png", TextureType::ID::Chel);
+    tl.LoadAsset("Player.png", TextureType::ID::Chel);
     
     SpriteLoader sl(tl);
     sl.LoadAsset("Chel.txt", SpriteInfo::ID::Chel);

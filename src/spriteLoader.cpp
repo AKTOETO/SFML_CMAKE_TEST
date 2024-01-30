@@ -121,7 +121,6 @@ void SpriteLoader::SetTexture(sf::Sprite* sp, std::stringstream& str)
 	str >> filepath;
 	spdlog::info("Texture filename: {0}", filepath);
 
-	m_txt_loader.LoadAsset(filepath, TextureType::ID::Chel);
 	sp->setTexture(m_txt_loader.GetAsset(TextureType::ID::Chel));
 }
 void SpriteLoader::SetTextureRect(sf::Sprite* sp, std::stringstream& str)
