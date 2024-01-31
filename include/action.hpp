@@ -13,29 +13,51 @@ public:
 		RealTime = 1,
 	};
 
-	Action(sf::Event _event);
+	Action(sf::Event _event, Type type = Type::RealTime);
+
+	// конструкторы для обработки клавиатуры и мыши
+	Action(const sf::Keyboard::Key& key, Type type = Type::RealTime);
+	Action(const sf::Mouse::Button& key, Type type = Type::RealTime);
 
 	// необходимо сравнить тип действия,
 	// чтобы знать, когда его выполнять
 	bool operator==(const sf::Event& _event) const;
+	bool operator==(const Action& _action) const;
 
 	// оператор проверки выполнения события
 	bool operator()()const;
 
 private:
 
+	// для доступа к приватным полям этого класса 
+	// из класса ActionManager
+	friend class ActionManager;
+
 	// тип действия
 	sf::Event m_event;
 
-	// сравнение sf::Event
-	bool IsEqual(const sf::Event& ev1, const sf::Event& ev2);
+	// тип события
+	Type m_type;
 };
 
 #endif //ACTION_HPP
 
-inline Action::Action(sf::Event _event)
-	:m_event(_event)
+inline Action::Action(sf::Event _event, Type type)
+	:m_event(_event), m_type(type)
+{}
+
+inline Action::Action(const sf::Keyboard::Key& key, Type type)
+	:m_type(type)
 {
+	m_event.type = sf::Event::EventType::KeyPressed;
+	m_event.key.code = key;
+}
+
+inline Action::Action(const sf::Mouse::Button& key, Type type)
+	:m_type(type)
+{
+	m_event.type = sf::Event::EventType::MouseButtonPressed;
+	m_event.mouseButton.button = key;
 }
 
 inline bool Action::operator==(const sf::Event& _event) const
@@ -48,25 +70,29 @@ inline bool Action::operator==(const sf::Event& _event) const
 	{
 	case sf::Event::EventType::KeyPressed:
 	{
-		res = IsEqual(m_event, _event);
+		if (m_event.type == _event.type)
+			res = _event.key.code == m_event.key.code;
 		break;
 	}
 
 	case sf::Event::EventType::KeyReleased:
 	{
-		res = IsEqual(m_event, _event);
+		if (m_event.type == _event.type)
+			res = _event.key.code == m_event.key.code;
 		break;
 	}
 
 	case sf::Event::EventType::MouseButtonPressed:
 	{
-		res = IsEqual(m_event, _event);
-		break;		
+		if (m_event.type == _event.type)
+			res = _event.key.code == m_event.key.code;
+		break;
 	}
 
 	case sf::Event::EventType::MouseButtonReleased:
 	{
-		res = IsEqual(m_event, _event);
+		if (m_event.type == _event.type)
+			res = _event.key.code == m_event.key.code;
 		break;
 	}
 
@@ -77,6 +103,11 @@ inline bool Action::operator==(const sf::Event& _event) const
 	return res;
 }
 
+inline bool Action::operator==(const Action& _action) const
+{
+	return m_event == _action && m_type == _action.m_type;
+}
+
 inline bool Action::operator()()const
 {
 	bool res = false;
@@ -85,16 +116,8 @@ inline bool Action::operator()()const
 		res = sf::Keyboard::isKeyPressed(m_event.key.code);
 
 	else if (m_event.type == sf::Event::EventType::MouseButtonPressed)
-		res = sf::Mouse::isButtonPressed(m_event.key.code);
+		res = sf::Mouse::isButtonPressed(m_event.mouseButton.button);
 
-	return res;
-}
-
-inline bool Action::IsEqual(const sf::Event& ev1, const sf::Event& ev2)
-{
-	bool res = false;
-	if (m_event.type == _event.type)
-		res = _event.key.code == m_event.key.code;
 	return res;
 }
 

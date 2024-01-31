@@ -5,6 +5,8 @@
 
 #include "textureLoader.hpp"
 #include "spriteLoader.hpp"
+#include "player.hpp"
+
 // класс игры
 class Game : public sf::NonCopyable
 {
@@ -29,6 +31,9 @@ private:
 	sf::Time m_time_since_last_update;
 	sf::Time m_time_per_frame;
 	int m_fps;
+
+	// player
+	std::unique_ptr<Player> m_player;
 };
 
 

@@ -12,6 +12,9 @@ Game::Game()
 	// loading assets
 	m_texture_loader->LoadAsset("Player.png", TextureType::ID::Chel);
 	m_sprite_loader->LoadAsset("Chel.txt", SpriteInfo::ID::Chel);
+
+	// создаем игрока
+	m_player = std::make_unique<Player>(m_sprite_loader->GetAsset(SpriteInfo::ID::Chel));
 }
 
 void Game::Run()
@@ -50,20 +53,26 @@ void Game::ProcessEvent()
 			if (event.key.code == sf::Keyboard::Escape)
 				m_window.close();
 		}
+
 	}
+	// обработка событий игрока
+	m_player->ProcessEvent();
 }
 
 void Game::ProcessUpdate(const sf::Time& d_time)
 {
 	m_fps = int(1 / d_time.asSeconds());
 	m_window.setTitle(std::to_string(m_fps));
+
+	// обновление игрока
+	m_player->ProcessUpdate(d_time);
 }
 
 void Game::ProcessRender()
 {
 	m_window.clear(sf::Color::Blue);
 	
-	m_window.draw(m_sprite_loader->GetAsset(SpriteInfo::ID::Chel));
+	m_window.draw(*m_player);
 
 	m_window.display();
 }

@@ -1,8 +1,9 @@
 #ifndef ACTIONMANAGER_HPP
 #define ACTIONMANAGER_HPP
 
+#include <algorithm>
 #include <functional>
-#include <unordered_map>
+#include <list>
 #include "action.hpp"
 
 // класс связывающий действие с обрабатывающей функцией
@@ -15,15 +16,22 @@ public:
 
 	ActionManager();
 
-	bool ProcessEvent();
+	// для событий, получаемых с pollEvent
+	bool ProcessEvent(const sf::Event&) const;
+	// для событий получаемых напряму с устройств
+	void ProcessEvent() const;
 
 	void bind(const Action& action, const FuncType& callback);
 	void unbind(const Action& action);
 
 private:
 
-	// список функций и возможных действий
-	std::unordered_map<Action, FuncType> m_callbacks;
+	// список событий, выполнение 
+	// которых можно проверить в любое время
+	std::list<std::pair<Action, FuncType>> m_real_time_events;
+
+	// список остальных событий
+	std::list<std::pair<Action, FuncType>> m_poll_events;
 
 };
 
