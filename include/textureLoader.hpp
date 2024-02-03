@@ -21,13 +21,17 @@ namespace TextureType
 class TextureLoader :
     public AssetLoader<sf::Texture, TextureType::ID>
 {
+protected:
+
+	virtual void ReadConfig(sf::Texture*, const std::string&) override;
+
 public:
     TextureLoader();
 
-    inline void LoadAsset(
-        const std::string& filename,
-        TextureType::ID asset_name
-    ) override;
+    //inline void LoadAsset(
+    //    const std::string& filename,
+    //    TextureType::ID asset_name
+    //) override;
 };
 
 #endif //TEXTURELOADER_HPP

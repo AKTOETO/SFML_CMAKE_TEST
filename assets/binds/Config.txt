@@ -1,0 +1,4 @@
+Player_MoveLeft A
+Player_MoveRight D
+Player_MoveUp W
+Player_MoveDown S

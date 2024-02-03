@@ -13,11 +13,28 @@ public:
 		RealTime = 1,
 	};
 
+	enum class InGameAction
+	{
+		None = 0,
+		Player_MoveLeft,
+		Player_MoveRight,
+		Player_MoveUp,
+		Player_MoveDown,
+
+		AllTypes
+	};
+
+	Action();
 	Action(sf::Event _event, Type type = Type::RealTime);
 
 	// конструкторы для обработки клавиатуры и мыши
 	Action(const sf::Keyboard::Key& key, Type type = Type::RealTime);
 	Action(const sf::Mouse::Button& key, Type type = Type::RealTime);
+
+	// обработка клавиатуры
+	void SetKeyboardAction(const sf::Keyboard::Key& key, Type type = Type::RealTime);
+	// обработка мышки
+	void SetMouseAction(const sf::Mouse::Button& key, Type type = Type::RealTime);
 
 	// необходимо сравнить тип действия,
 	// чтобы знать, когда его выполнять
@@ -42,6 +59,11 @@ private:
 
 #endif //ACTION_HPP
 
+inline Action::Action()
+	:m_event(sf::Event()), m_type(Type::None)
+{
+}
+
 inline Action::Action(sf::Event _event, Type type)
 	:m_event(_event), m_type(type)
 {}
@@ -56,6 +78,20 @@ inline Action::Action(const sf::Keyboard::Key& key, Type type)
 inline Action::Action(const sf::Mouse::Button& key, Type type)
 	:m_type(type)
 {
+	m_event.type = sf::Event::EventType::MouseButtonPressed;
+	m_event.mouseButton.button = key;
+}
+
+inline void Action::SetKeyboardAction(const sf::Keyboard::Key& key, Type type)
+{
+	m_type = type;
+	m_event.type = sf::Event::EventType::KeyPressed;
+	m_event.key.code = key;
+}
+
+inline void Action::SetMouseAction(const sf::Mouse::Button& key, Type type)
+{
+	m_type = type;
 	m_event.type = sf::Event::EventType::MouseButtonPressed;
 	m_event.mouseButton.button = key;
 }

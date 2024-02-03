@@ -96,7 +96,7 @@ target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 # if compiler is clang
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++20")
-endif()
+endif() 
 
 # disabling console window in release build type
 if (WIN32)

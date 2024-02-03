@@ -53,12 +53,14 @@ public:
     SpriteLoader() = delete;
     SpriteLoader(TextureLoader& txt_loader);
 
-    virtual void LoadAsset(const std::string& filename, SpriteInfo::ID asset_name) override;
+    //virtual void LoadAsset(const std::string& filename, SpriteInfo::ID asset_name) override;
+    
+protected:
+
+	// чтение конфига
+    virtual void ReadConfig(sf::Sprite*, const std::string&) override;
 
 private:
-
-    // чтение конфига
-    void ReadConfig(sf::Sprite*, const std::string&);
 
     // функции обработки тегов
     void SetTexture        (sf::Sprite* sp, std::stringstream& str);

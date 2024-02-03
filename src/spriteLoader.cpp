@@ -56,24 +56,24 @@ SpriteLoader::SpriteLoader(TextureLoader& txt_loader)
 }
 
 
-inline void SpriteLoader::LoadAsset(
-	const std::string& filename,
-	SpriteInfo::ID asset_name
-)
-{
-	// новый спрайт
-	std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
-
-	//  чтение конфига 
-	ReadConfig(sprite.get(), filename);
-
-	// добавляем элемент в мап
-	auto inserted = m_LoadedAssets.insert(
-		std::make_pair(asset_name, std::move(sprite))
-	);
-
-	assert(inserted.second);
-};
+//inline void SpriteLoader::LoadAsset(
+//	const std::string& filename,
+//	SpriteInfo::ID asset_name
+//)
+//{
+//	// новый спрайт
+//	std::unique_ptr<sf::Sprite> sprite = std::make_unique<sf::Sprite>();
+//
+//	//  чтение конфига 
+//	ReadConfig(sprite.get(), filename);
+//
+//	// добавляем элемент в мап
+//	auto inserted = m_LoadedAssets.insert(
+//		std::make_pair(asset_name, std::move(sprite))
+//	);
+//
+//	assert(inserted.second);
+//};
 
 
 void SpriteLoader::ReadConfig(sf::Sprite* sp, const std::string& filename)

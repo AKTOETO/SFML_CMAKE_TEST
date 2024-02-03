@@ -7,7 +7,12 @@ Game::Game()
 	m_sprite_loader(std::make_unique<SpriteLoader>(*m_texture_loader))
 {
 	m_window.setFramerateLimit(60);
+
+#ifndef NDEBUG
 	m_window.setPosition({ -1000,50 });
+#endif // !NDEBUG
+
+
 
 	// loading assets
 	m_texture_loader->LoadAsset("Player.png", TextureType::ID::Chel);
@@ -33,7 +38,6 @@ void Game::Run()
 		}
 
 		ProcessUpdate(m_time_since_last_update);
-
 		ProcessRender();
 	}
 }
@@ -62,7 +66,9 @@ void Game::ProcessEvent()
 void Game::ProcessUpdate(const sf::Time& d_time)
 {
 	m_fps = int(1 / d_time.asSeconds());
-	m_window.setTitle(std::to_string(m_fps));
+	m_window.setTitle(std::to_string(m_fps) + "  "+
+		std::to_string(m_time_per_frame.asSeconds())+ " "+
+		std::to_string(m_time_since_last_update.asSeconds()));
 
 	// обновление игрока
 	m_player->ProcessUpdate(d_time);

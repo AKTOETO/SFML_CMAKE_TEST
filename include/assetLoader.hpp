@@ -27,13 +27,16 @@ protected:
     // хранение загруженных ресурсов 
     std::map<Enum, std::unique_ptr<AssetType>> m_LoadedAssets;
 
+	// настройка объекта
+	virtual void ReadConfig(AssetType*, const std::string&) = 0;
+
 public:
     AssetLoader() = delete;
     AssetLoader(const std::string& filepath);
     virtual ~AssetLoader();
 
     // загрузить ассет с диска в память
-    virtual void LoadAsset(const std::string& filename, Enum asset_name) = 0;
+    virtual void LoadAsset(const std::string& filename, Enum asset_name);
     // получить ассет
     virtual AssetType& GetAsset(Enum asset_name);
     // удалить ассет
@@ -51,6 +54,23 @@ inline AssetLoader<AssetType, Enum>::AssetLoader(const std::string& filepath)
 template <typename AssetType, typename Enum>
 inline AssetLoader<AssetType, Enum>::~AssetLoader()
 {}
+
+template<typename AssetType, typename Enum>
+inline void AssetLoader<AssetType, Enum>::LoadAsset(const std::string & filename, Enum asset_name)
+{
+	// новый спрайт
+	std::unique_ptr<AssetType> obj = std::make_unique<AssetType>();
+
+	//  чтение конфига 
+	ReadConfig(obj.get(), filename);
+
+	// добавляем элемент в мап
+	auto inserted = m_LoadedAssets.insert(
+		std::make_pair(asset_name, std::move(obj))
+	);
+
+	assert(inserted.second);
+}
 
 template <typename AssetType, typename Enum>
 inline AssetType& AssetLoader<AssetType, Enum>::GetAsset(Enum asset_name)
