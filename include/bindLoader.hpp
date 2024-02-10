@@ -2,14 +2,14 @@
 #define BINDLOADER_HPP
 
 #include <functional>
-#include <strstream>
+#include <sstream>
 #include <fstream>
 #include <spdlog/spdlog.h>
 
 #include "assetLoader.hpp"
 #include "action.hpp"
 
-// типы событий объектов
+// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 namespace BindType
 {
 	enum class ID
@@ -24,7 +24,7 @@ namespace BindType
 	};
 };
 
-// загрузчик клавиш
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 class BindLoader :
 	public AssetLoader<Action, BindType::ID>
 {
@@ -32,14 +32,14 @@ protected:
 
 	virtual void ReadConfig(Action*, const std::string&) override;
 
-	// преобразование из тега в перечисление
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	std::map<std::string, BindType::ID> m_str_to_id;
 
-	// преобразование из строки клавиши в клавишу
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	std::map<std::string, sf::Keyboard::Key> m_str_to_key;
 
 private:
-	// настройка события
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	void ActionConfigure(Action* action, BindType::ID id, std::stringstream& sstr);
 
 public: 

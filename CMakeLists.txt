@@ -104,7 +104,7 @@ if (WIN32)
     set(SUBSYSTEM_LINKER_OPTIONS "$<IF:$<CONFIG:Debug>,/SUBSYSTEM:CONSOLE,/SUBSYSTEM:WINDOWS;/ENTRY:mainCRTStartup>")
 else()
     # if config is not debug set the variable to "-mwindows" else nothing
-    set(SUBSYSTEM_LINKER_OPTIONS "$<IF:$<NOT:$<CONFIG:Debug>>,-mwindows,>")
+    # set(SUBSYSTEM_LINKER_OPTIONS "$<IF:$<NOT:$<CONFIG:Debug>>,-mwindows,>")
 endif()
 
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE ${SUBSYSTEM_LINKER_OPTIONS})
