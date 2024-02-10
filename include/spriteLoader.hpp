@@ -5,7 +5,7 @@
 #include <fstream>
 #include <spdlog/spdlog.h>
 #include <functional>
-#include <strstream>
+#include <sstream>
 
 namespace SpriteInfo
 {
